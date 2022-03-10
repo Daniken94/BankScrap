@@ -12,6 +12,7 @@ class Index(View):
         soup = BeautifulSoup(page.content, "html.parser")
         arr = soup.find_all('td', class_="colWalor textNowrap")
         arrkurs = soup.find_all('td', class_="colKurs")
+        arrczas = soup.find_all('td', class_="colAktualizacja")
         rows = soup.find_all('tr')
 
         u = 0
@@ -21,22 +22,14 @@ class Index(View):
             kwalor.append(str.strip(arr2))
             u = u+1
         
+
         titler = []
-        
         for titles in rows:
             nwalor = titles.find("a")
             if nwalor:
                 wwalor = nwalor.get("title")
                 titler.append(wwalor)
 
-
-        # kurs = []
-
-        # for kurse in rows:
-        #     nwalor = kurse.find("td", class_="colKurs change up")
-
-        #     kurs.append(nwalor)
-        #         u = 0
 
         f = 0
         kurs = []
@@ -46,4 +39,12 @@ class Index(View):
             f = f+1
 
 
-        return render(request, "index.html", {"arr": arr, "kwalor": kwalor, "titler": titler, "kurs": kurs})
+        t = 0
+        czas = []
+        for i in arrczas:
+            czas_prime = i.get("data-sort-value")
+            czas.append(czas_prime)
+            t = t+1
+
+
+        return render(request, "index.html", {"arr": arr, "kwalor": kwalor, "titler": titler[1:], "kurs": kurs, "czas": czas})
