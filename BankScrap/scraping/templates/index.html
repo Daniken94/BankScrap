@@ -11,14 +11,15 @@
 <form action="", method="POST">
   {% csrf_token %}
   
-  <select name="asc">
-    <option name="asc">ASC</option>
-    <option name="desc">DESC</option>
+  <select name="sort">
+    <option>ASC</option>
+    <option>DESC</option>
   </select>
+  
   <button type="submit">SORT</button>
 
-  <button type="submit" name="asc" value="asc">ASC</button>
-  <button type="submit" name="desc" value="desc">DESC</button>
+  <!-- <button type="submit" name="asc" value="asc">ASC</button>
+  <button type="submit" name="desc" value="desc">DESC</button> -->
 
 </form>
 
