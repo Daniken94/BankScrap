@@ -84,13 +84,14 @@ def my_scheduled_job():
         conn.commit()
         print("Complete!!!")
     else:
-        print("I think I have outdated data")
+        print("I think You have got outdated data")
         cur.execute("DELETE FROM scraping_stats;")
         print('You have deleted', cur.rowcount, 'outdated records from the table.')
         conn.commit()
         sql = """INSERT INTO scraping_stats(name, code, price, date) VALUES(?,?,?,?)"""
         cur.executemany(sql, scrap_result)
         conn.commit()
+        print("Inserting new data...")
         print("Complete!!!")
 
 # close connect to database
