@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# All records from scraping are str so that's why is only CharField models.
 
 
 class Stats(models.Model):
@@ -8,6 +8,8 @@ class Stats(models.Model):
     code = models.CharField(max_length=20, verbose_name="Kod waloru")
     price = models.CharField(max_length=20, verbose_name="Kurs")
     date = models.CharField(max_length=20, verbose_name="data i czas pobrania")
+
+# Meta is for change name from django's Statss to Stats
 
     class Meta:
         verbose_name_plural = "Stats"

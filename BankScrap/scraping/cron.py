@@ -8,12 +8,16 @@ import sqlite3
 def my_scheduled_job():
     print("Searching in bankier.pl...")
 
+# Connecting to bankier.pl by BeautifulSoup
+
     page = requests.get("http://www.bankier.pl/gielda/notowania/akcje")
     soup = BeautifulSoup(page.content, "html.parser")
     arr_all = soup.find_all('td', class_="colWalor textNowrap")
     arr_rate = soup.find_all('td', class_="colKurs")
     arr_time = soup.find_all('td', class_="colAktualizacja")
     rows = soup.find_all('tr')
+
+# Taking titles
 
     titles = []
     for i in rows:
@@ -22,6 +26,7 @@ def my_scheduled_job():
             raw_titles_all = raw_titles.get("title")
             titles.append(raw_titles_all)
 
+# Taking walor code
 
     u = 0
     k_walor = []
@@ -30,6 +35,7 @@ def my_scheduled_job():
         k_walor.append(str.strip(raw_k_walor))
         u = u+1
 
+# Taking rate
 
     f = 0
     rate = []
@@ -38,6 +44,7 @@ def my_scheduled_job():
         rate.append(str.strip(raw_kurs))
         f = f+1
 
+# Taking datatime
 
     t = 0
     time = []
@@ -46,6 +53,7 @@ def my_scheduled_job():
         time.append(raw_time)
         t = t+1
 
+# Mixing all tables after scraping. Without mixing can't add this to database. 
 
     name_walor = titles[1:]
     scrap_result = []
@@ -54,6 +62,8 @@ def my_scheduled_job():
         df3 = [name_walor[j], k_walor[j], rate[j], time[j]]
         scrap_result.append(df3)
         j = j+1
+
+# Making connect to database and create cursor
 
     conn = sqlite3.connect("db.sqlite3")
     cur = conn.cursor()
@@ -64,6 +74,8 @@ def my_scheduled_job():
     results = cur.fetchall()
     print("Searching in Database....")
 
+# Searching in database. If database is empty function insert new data from scraping. 
+# Else function update database by deleting outdated records and inser new ones.
 
     if len(results) < 1:
         print("I need more data")
@@ -81,6 +93,7 @@ def my_scheduled_job():
         conn.commit()
         print("Complete!!!")
 
+# close connect to database
 
     conn.close()
 
