@@ -1,45 +1,88 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>BankScrap</title>
 </head>
+
+<link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'styles/main.css' %}">
+
 <body>
-
-<h1>Goodbye world</h1>
-
-<form action="", method="POST">
-  {% csrf_token %}
-  
-  <select name="sort">
-    <option>ASC</option>
-    <option>DESC</option>
-  </select>
-  
-  <button type="submit">SORT</button>
-
-  <!-- <button type="submit" name="asc" value="asc">ASC</button>
-  <button type="submit" name="desc" value="desc">DESC</button> -->
-
-</form>
+  <body class="d-flex flex-column min-vh-100">
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+  <a class="navbar-brand" href="{% url 'scraping:index' %}">
+    <img src={% static 'images/icon-1243671_1280.png' %} width="30" height="30" class="d-inline-block align-top" alt="">
+    Notowania GWP - Bankier.pl
+  </a>
+</div>
+</nav>
 
 
-<table>
-  <tr>
-    <td><h3>Nazwa waloru</h3></td>
-    <td><h3>Kod waloru</h3></td>
-    <td><h3>Kurs</h3></td>
-    <td><h3>Data aktualizacji</h3></td>
-  </tr>
-  
-  {% for i in stats %}
-  <tr>
-    <td>{{ i.name }}</td>
-    <td>{{ i.code }}</td>
-    <td>{{ i.price }} zł</td>
-    <td>{{ i.date }}</td>
-  </tr>
-{% endfor %}
-</table>
+
+
+<div class="container mt-4">
+  <div class="row">
+      <div class="col-11">
+
+
+        <h2>Notowania GPW - akcje</h2>
+
+        <form action="", method="POST">
+          {% csrf_token %}
+
+        </br>
+          <select name="sort" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <option selected>Wybierz rodzaj sortowania</option>
+            <option>ASC</option>
+            <option>DESC</option>
+          </select>
+      
+          <button type="submit" class="btn btn-outline-dark">Sortuj</button>
+        </form>
+        
+        </br>
+        </br>
+        
+
+
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Nazwa waloru</th>
+              <th scope="col">Kod waloru</th>
+              <th scope="col">Kurs</th>
+              <th scope="col">Data aktualizacji</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in stats %}
+          <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.code }}</td>
+            <td>{{ i.price }} zł</td>
+            <td>{{ i.date }}</td>
+          </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <footer class="bg-light text-center text-lg-start">
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            Kamil Klekotka 
+            <a class="text-dark" href="https://github.com/Daniken94/">Github.com</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+
+      </div>
+  </div>
+</div>
 </body>
 </html>

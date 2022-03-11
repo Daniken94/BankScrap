@@ -13,21 +13,5 @@ class Index(View):
             return render(request, "index.html", {"stats": stats})
         else:
             stats = Stats.objects.all().order_by('-name')
-            return render(request, "index.html", {"stats": stats})
-
-
-
-
-
-
-        # if request.POST.get("asc"):
-        #     stats = Stats.objects.all().order_by('name')
-
-        #     return render(request, "index.html", {"stats": stats}) 
-
-
-        # if request.POST.get("desc"):
-        #     stats = Stats.objects.all().order_by('-name')
-
-        #     return render(request, "index.html", {"stats": stats})   
+            return render(request, "index.html", {"stats": stats}) 
  

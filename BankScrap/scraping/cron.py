@@ -4,59 +4,55 @@ from bs4 import BeautifulSoup
 
 import sqlite3
 
-# def my_scheduled_job():
-#     Stats.objects.create(name="test", code="test", price="test", date="test")
-
 
 def my_scheduled_job():
     print("Searching in bankier.pl...")
 
     page = requests.get("http://www.bankier.pl/gielda/notowania/akcje")
     soup = BeautifulSoup(page.content, "html.parser")
-    arr = soup.find_all('td', class_="colWalor textNowrap")
-    arrkurs = soup.find_all('td', class_="colKurs")
-    arrczas = soup.find_all('td', class_="colAktualizacja")
+    arr_all = soup.find_all('td', class_="colWalor textNowrap")
+    arr_rate = soup.find_all('td', class_="colKurs")
+    arr_time = soup.find_all('td', class_="colAktualizacja")
     rows = soup.find_all('tr')
 
-    titler = []
-
-    for titles in rows:
-        nwalor = titles.find("a")
-        if nwalor:
-            wwalor = nwalor.get("title")
-            titler.append(wwalor)
+    titles = []
+    for i in rows:
+        raw_titles = i.find("a")
+        if raw_titles:
+            raw_titles_all = raw_titles.get("title")
+            titles.append(raw_titles_all)
 
 
     u = 0
-    kwalor = []
-    for i in arr:
-        arr2 = soup.find_all("td", class_="colWalor textNowrap")[u].get_text()
-        kwalor.append(str.strip(arr2))
+    k_walor = []
+    for i in arr_all:
+        raw_k_walor = soup.find_all("td", class_="colWalor textNowrap")[u].get_text()
+        k_walor.append(str.strip(raw_k_walor))
         u = u+1
 
 
     f = 0
-    kurs = []
-    for i in arrkurs:
-        arr2 = soup.find_all("td", class_="colKurs")[f].get_text()
-        kurs.append(str.strip(arr2))
+    rate = []
+    for i in arr_rate:
+        raw_kurs = soup.find_all("td", class_="colKurs")[f].get_text()
+        rate.append(str.strip(raw_kurs))
         f = f+1
 
 
     t = 0
-    czas = []
-    for i in arrczas:
-        czas_prime = i.get("data-sort-value")
-        czas.append(czas_prime)
+    time = []
+    for i in arr_time:
+        raw_time = i.get("data-sort-value")
+        time.append(raw_time)
         t = t+1
 
 
-    name = titler[1:]
-    new = []
+    name_walor = titles[1:]
+    scrap_result = []
     j=0
-    for i in range(len(name)):
-        df3 = [name[j], kwalor[j], kurs[j], czas[j]]
-        new.append(df3)
+    for i in range(len(name_walor)):
+        df3 = [name_walor[j], k_walor[j], rate[j], time[j]]
+        scrap_result.append(df3)
         j = j+1
 
     conn = sqlite3.connect("db.sqlite3")
@@ -72,7 +68,7 @@ def my_scheduled_job():
     if len(results) < 1:
         print("I need more data")
         sql = """INSERT INTO scraping_stats(name, code, price, date) VALUES(?,?,?,?)"""
-        cur.executemany(sql, new)
+        cur.executemany(sql, scrap_result)
         conn.commit()
         print("Complete!!!")
     else:
@@ -81,7 +77,7 @@ def my_scheduled_job():
         print('You have deleted', cur.rowcount, 'outdated records from the table.')
         conn.commit()
         sql = """INSERT INTO scraping_stats(name, code, price, date) VALUES(?,?,?,?)"""
-        cur.executemany(sql, new)
+        cur.executemany(sql, scrap_result)
         conn.commit()
         print("Complete!!!")
 
