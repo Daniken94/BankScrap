@@ -11,9 +11,9 @@
 <form action="", method="POST">
   {% csrf_token %}
   
-  <select>
-    <option name="asc" value="asc">ASC</option>
-    <option name="desc" value="desc">DESC</option>
+  <select name="asc">
+    <option name="asc">ASC</option>
+    <option name="desc">DESC</option>
   </select>
   <button type="submit">SORT</button>
 

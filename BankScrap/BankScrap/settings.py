@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
 
     # local
     'scraping.apps.ScrapingConfig',
@@ -126,3 +127,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# CronJobs
+
+CRONJOBS = [
+    ('*/1 * * * *', 'scraping.cron.my_scheduled_job')
+]
