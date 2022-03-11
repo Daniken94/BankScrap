@@ -6,8 +6,8 @@ from django.db import models
 class Stats(models.Model):
     name = models.CharField(max_length=120, verbose_name="Nazwa waloru")
     code = models.CharField(max_length=20, verbose_name="Kod waloru")
-    price = models.FloatField(verbose_name="Kurs")
-    date = models.DateTimeField(verbose_name="data i czas pobrania")
+    price = models.CharField(max_length=20, verbose_name="Kurs")
+    date = models.CharField(max_length=20, verbose_name="data i czas pobrania")
 
     class Meta:
         verbose_name_plural = "Stats"

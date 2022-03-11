@@ -8,37 +8,37 @@
 
 <h1>Goodbye world</h1>
 
+<form action="", method="POST">
+  {% csrf_token %}
+  
+  <select>
+    <option name="asc" value="asc">ASC</option>
+    <option name="desc" value="desc">DESC</option>
+  </select>
+  <button type="submit">SORT</button>
+
+  <button type="submit" name="asc" value="asc">ASC</button>
+  <button type="submit" name="desc" value="desc">DESC</button>
+
+</form>
 
 
 <table>
   <tr>
-    <td>Nazwa waloru</td>
-    <td>Kod waloru</td>
-    <td>Kurs</td>
-    <td>Data aktualizacji</td>
+    <td><h3>Nazwa waloru</h3></td>
+    <td><h3>Kod waloru</h3></td>
+    <td><h3>Kurs</h3></td>
+    <td><h3>Data aktualizacji</h3></td>
   </tr>
   
+  {% for i in stats %}
   <tr>
-    <td>{% for i in titler %} 
-      {{ i }} </br>>
-      {% endfor %}</td>
-    <td>{% for i in kwalor %} 
-      {{ i }} </br>
-      {% endfor %}</td>
-    <td>{% for i in kurs %} 
-      {{ i }} </br>
-      {% endfor %}</td>
-    <td>{% for i in czas %} 
-      {{ i }} </br>
-      {% endfor %}</td>
+    <td>{{ i.name }}</td>
+    <td>{{ i.code }}</td>
+    <td>{{ i.price }} zł</td>
+    <td>{{ i.date }}</td>
   </tr>
-  
+{% endfor %}
 </table>
-
-
-
-
-
-
 </body>
 </html>
